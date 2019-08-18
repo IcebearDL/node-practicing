@@ -44,6 +44,7 @@ server.on('request',function(request,response){
     }
      else if(pathname === '/CROS/jsonp'){
 
+        //这里判断是否有query跨域行为，和跨域的callback回调函数
         if (params.query && params.query.callback) {
             let str = params.query.callback + '(' + JSON.stringify(res) + ')';//jsonp
             response.end(str);
