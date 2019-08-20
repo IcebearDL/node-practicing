@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
+    <style>
+        section {
+            padding: 0 10px
+        }
+        section div:first-child{
+            float: left;
+            /* display: inline-block; */
+            width: 200px;
+            height: 200px;
+            background-color: lightseagreen;
+        }
+        section div:nth-child(2){
+            float: right;
+            width: 200px;
+            height: 200px;
+            background-color: lightgreen;
+            
+        }
+        section div:last-child{
+            /* float: left; */
+            /* display: inline-block; */
+            overflow: hidden;
+            margin-right: 200px;
+            /* width: 100%; */
+            height: 200px;
+            background-color: pink;
+        }
+    </style>
+
+    <style>
+        article {
+            margin-top: 100px;
+            display: block;
+            padding: 0 10px;
+            display: flex;
+        }
+        article div:first-child{
+            width: 200px;
+            height: 200px;
+            background-color: lightseagreen;
+        }
+        article div:nth-child(2){
+            flex-grow: 1;
+            height: 200px;
+            background-color: lightgreen;
+            
+        }
+        article div:last-child{
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+        }
+    </style>
+
+    <style>
+        .float{
+            margin-top: 100px;
+            height: 200px;
+        }
+        .float div:first-child{
+            float: left;
+            width: 200px;
+            height: 200px;
+            background-color: lightseagreen;
+        }
+        .float div:nth-child(2){
+            float: right;
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+            
+        }
+        .float div:last-child{
+            margin-left: 200px;
+            margin-right: 200px;
+            height: 200px;
+            background-color: lightgreen;
+        }
+    </style>
+
+    <style>
+        .absolute{
+            position: relative;
+            height: 200px;
+            margin-top: 100px;
+        }
+        .absolute > div:first-child{
+            position: absolute;
+            width: 20%;
+            height: 100%;
+            background-color: lightseagreen;
+            top: 0;
+            left: 0;
+        }
+        .absolute > div:nth-child(2){
+            position: absolute;
+            height: 100%;
+            width: 60%;
+            background-color: pink;
+            top: 0;
+            left: 20%;
+        }
+        .absolute > div:last-child{
+            position: absolute;
+            width: 20%;
+            height: 100%;
+            background-color: lightgreen;
+            top: 0;
+            right: 0;
+        }
+    </style>
+
+    <style>
+        .fly{
+            margin-top: 100px;
+        }
+        .fly > div{
+            height: 200px;
+            float: left;
+        }
+        .fly > div:first-child{
+            width: 100%;
+            padding: 0 200px;
+            box-sizing:border-box;
+            background-color: aqua;
+        }
+        .fly > div:nth-child(2){
+            width:200px;
+            margin-top: -200px;
+            background-color:cornflowerblue;
+        }
+        .fly > div:last-child{
+            float: right;
+            width: 200px;
+            margin-top: -200px;
+            background-color: cadetblue;
+        }
+    </style>
+    <body>
+        <!-- 第一种布局，把middle盒子放到最后面，用float和bfc块级格式上下文，和margin-right -->
+        <section>
+            <div></div>
+            <div></div>
+            <div id="middle"></div>
+        </section>
+        <!-- 第二种布局，用flex做 -->
+        <article>
+            <div></div>
+            <div></div>
+            <div></div>
+        </article>
+        <!-- 第三种布局还是用float做，与第一种较相似，不同点不使用bfc块级上下文 -->
+        <div class="float">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <!-- 第四种用绝对定位布局 ,bug:左中右都是百分比自适应,并非左右定宽,中间-->
+        <div class="absolute">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <!--让main占百分百宽度把旁边两个容器挤下去，用负的margin-top拉上来,然后左右内边距等同两遍容器的宽度 空开位置-->       
+        <div class="fly">
+            <div class="main"></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div>123</div>
+    </body>
+</html>
