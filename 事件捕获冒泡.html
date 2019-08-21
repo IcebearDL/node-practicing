@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
+    <style>
+        section{
+            width: 400px;
+            height: 400px;
+            background-color: aqua;
+        }
+        section > div{
+            width: 300px;
+            height: 300px;
+            background-color: lightgreen;
+        }
+        section > div > div{
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+        }
+    </style>
+    <body>
+        <section id="div1">
+            <div id="div2">
+                <div id="div3"></div>
+            </div>
+        </section>
+        
+
+    <script>
+        let div1 = document.getElementById('div1');
+        let div2 = document.getElementById('div2');
+        let div3 = document.getElementById('div3');
+
+        //addEventListener里的第三个参数决定了事件是在冒泡阶段被触发，还是在捕获阶段被触发
+        div1.addEventListener('click',() => console.log('最大div被点击'),true);
+        div2.addEventListener('click',() => console.log('中间div被点击'),true);
+        div3.addEventListener('click',() => console.log('最小div被点击'),false);
+
+        // div1.onclick = (event) => {
+        //     //绝大多数浏览器，阻止事件的进一步冒泡
+        //     //设置谁，谁的之后就不再冒泡
+        //     // event.stopPropagation();
+        //     //IE浏览器,设置为true后阻止事件冒泡
+        //     // event.cancelBubble = true;
+
+        //     //阻止事件冒泡之后事件将按事件捕获执行
+        //     console.log('最大div被点击')
+        // };
+        // div2.onclick = (event) => {
+        //     // event.stopPropagation();
+        //     console.log('中间div被点击')
+        // }
+        // div3.onclick = (event) => {
+        //     event.stopPropagation();
+        //     console.log('最小div被点击')
+        // }
+    </script>
+    </body>
+</html>
