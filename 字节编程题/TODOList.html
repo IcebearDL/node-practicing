@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>TODOList</title>
+        <style>
+            header{
+                margin: 50px 0;
+                text-align: center;
+                color: #484848
+            }
+            div{
+                text-align: center;
+            }
+            input{
+                font-size: 20px;
+                color: #484848;
+                width: 350px;
+                padding: 10px;
+                box-shadow: 0 0 20px 2px rgba(0,0,0,0.15);
+                border: 1px solid #d8d8d8;
+            }
+            div > ul{
+                list-style: none;
+                margin: 0 auto;
+                font-size: 20px;
+                color: #484848;
+                width: 350px;
+                padding: 5px 10px;
+                box-shadow: 0 0 20px 2px rgba(0,0,0,0.15);
+                border: 1px solid #d8d8d8;
+                text-align: left
+            }
+            li{
+                padding: 5px 0;
+                position: relative;
+            }
+            ul li:nth-child(n+2){
+                border-top: 1px solid #d8d8d8;
+            }
+            li button{
+                position: absolute;
+                font-size: 20px;
+                right: 5px;
+                top: 5px;
+                border: none;
+                background-color: transparent;
+                border: none;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>TODOList HTML&CSS练习</h1>
+        </header>
+        <section>
+            <div>
+                <input type="text" id="input" placeholder="请输入..."/>
+                <ul id="ul" style="display:none">
+                </ul>
+            </div>
+        </section>
+        <script>
+            let inputInfo = [];
+            
+            let input = document.getElementById('input');
+            input.addEventListener("keydown",pressDown);
+            input.addEventListener("input",watchText);
+
+            function addItem(msg){
+                if(document.getElementById('ul').display = 'none'){
+                    document.getElementById('ul').style.display = 'block'
+                }
+                inputInfo.push(msg);
+
+                //每次重新刷出
+                let str = '';
+                inputInfo.forEach((item,index) => {
+                    str += `
+                    <li>
+                        <span>${item}</span>
+                        <button onclick="deleteItem(this,${index})">×</button>
+                    </li>`;
+                })
+                input.value = '';
+                document.getElementById('ul').innerHTML = str;
+            }
+            
+            function deleteItem(e,index){
+                e.parentNode.remove();
+                inputInfo.splice(index,1);
+                if(document.getElementById('ul').innerText === ''){
+                    document.getElementById('ul').style.display = 'none'
+                }
+            }
+
+            function pressDown(e){
+                if(e.keyCode === 13){
+                    input.value.trim() !== '' ? addItem(input.value) : alert("请输入");
+                }
+            }
+            function watchText(){
+                console.log(input.value);
+                if(input.value.trim() === '' && inputInfo){
+                    let str = '';
+                    inputInfo.forEach(item => {
+                        str += `
+                        <li>
+                            <span>${item}</span>
+                            <button onclick="deleteItem(this)">×</button>
+                        </li>`;
+                    })
+                    document.getElementById('ul').innerHTML = str;
+                } else if(inputInfo){
+                    console.log(input.value);
+                    let str = '';
+                    document.getElementById('ul').innerHTML = '';
+                    inputInfo.forEach(item => {
+                        let index = item.indexOf(input.value);
+                        if(index !== -1){
+                            let begin = item.substring(0, index);
+                            let keyword = item.substring(index, index + input.value.length);
+                            let end = item.substring(index + input.value.length);
+                            str += `
+                            <li>
+                                <span>${begin}</span><span style="color:red">${keyword}</span><span>${end}</span>
+                                <button onclick="deleteItem(this)">×</button>
+                            </li>`;
+                        }
+                    });
+                    document.getElementById('ul').innerHTML = str;
+                }
+            }
+        </script>
+    </body>
+</html>
