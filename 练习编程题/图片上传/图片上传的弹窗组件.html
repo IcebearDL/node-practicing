@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        section {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 668px;
+            height: 608px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        header {
+            border-bottom: 1px solid #ccc;
+            padding: 0 20px;
+            border-radius: 5px;
+        }
+
+        header::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        header>div:first-child {
+            float: left;
+            color: red;
+            line-height: 50px;
+            border-bottom: 2px solid red;
+            font-size: 15px;
+        }
+
+        header>div:last-child {
+            float: right;
+            top: 10px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        header>div>div:first-child {
+            width: 10px;
+            height: 10px;
+            border-right: 2px solid #ccc;
+            border-bottom: 2px solid #ccc;
+            transform: rotate(45deg)
+        }
+
+        header>div>div:last-child {
+            width: 10px;
+            height: 10px;
+            margin-top: 2px;
+            border-right: 2px solid #ccc;
+            border-top: 2px solid #ccc;
+            transform: rotate(-45deg)
+        }
+
+        section>div {
+            height: 430px;
+            padding: 20px
+        }
+
+        section>div>div {
+            display: inline-block;
+            position: relative;
+        }
+
+        img {
+            width: 110px;
+            height: 110px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        input {
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            overflow: hidden;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        footer {
+            border-top: 1px solid #ccc
+        }
+
+        footer div {
+            padding: 20px;
+            width: 180px;
+            margin: 0 auto;
+        }
+
+        footer button {
+            font-size: 16px;
+            border: none;
+            outline: none;
+            border-radius: 4px;
+            width: 80px;
+            line-height: 40px;
+            cursor: pointer;
+        }
+
+        footer button:first-child {
+            margin-right: 10px;
+            background-color: red;
+            color: white;
+        }
+
+        footer button:last-child {
+            background-color: #d9d9d9;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <header>
+            <div>
+                <span>上传图片</span>
+            </div>
+            <div onclick="cancelPost()">
+                <div></div>
+                <div></div>
+            </div>
+        </header>
+        <div id="parent">
+            <div id="post">
+                <input type="file" accept="image/jpeg,image/jpg,image/png" id="img" onchange="uploadImgs()" multiple>
+                <img title="上传文件" src="https://p1.pstatp.com/large/3ecd0004b6bdeff4c48d">
+            </div>
+        </div>
+        <footer>
+            <div>
+                <button onclick="postImgs()">上传</button>
+                <button onclick="cancelPost()">取消</button>
+            </div>
+        </footer>
+    </section>
+    <script>
+        function uploadImgs() {
+            let input = document.getElementById('img');
+            let imgs = input.files;
+            for (let img of imgs) {
+                if ((img.size / 1024) > 2000) {
+                    console.log("上传的图片需小于2M！" + img.name);
+                } else {
+                    let reader = new FileReader();
+                    reader.readAsDataURL(img);
+                    reader.onload = function () {
+                        //这里把图片转化位base64的格式
+                        let element = `<img title="${img.name}" src="${this.result}">`;
+                        let div = document.createElement('div');
+                        div.innerHTML = element;
+                        document.getElementById('parent').insertBefore(div, document.getElementById('post'));
+                    }
+                }
+            }
+        }
+        function postImgs() {
+            let input = document.getElementById('img');
+            let imgs = input.files;
+            for (let img of imgs) {
+                if ((img.size / 1024) <= 2000) {
+                    let reader = new FileReader();
+                    reader.readAsDataURL(img);
+                    reader.onload = function () {
+                        fetch('http://localhost:5000/imgPost', {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json;charset=UTF-8'
+                            },
+                            body: JSON.stringify({ imgName: img.name, base64: this.result }),
+                        }).catch((err) => console.log(err));
+                    }
+                }
+            }
+        }
+        function cancelPost() {
+
+        }
+    </script>
+</body>
+
+</html>
