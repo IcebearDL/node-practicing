@@ -39,16 +39,16 @@ function rXcY(item) {
         }
         num2 = Math.floor(num2 / 26);
     }
-    print(str+num1);
+    print(str + num1);
 }
 function b(item) {
-    let row = item.replace(/[A-Z]+/,'');
-    let char = item.replace(/\d+/,'');
+    let row = item.replace(/[A-Z]+/, '');
+    let char = item.replace(/\d+/, '');
     let col = 0;
-    while(char){
-        col += (char.charCodeAt()-64)*Math.pow(26,char.length-1);
-        char = char.slice(1); 
+    while (char) {
+        col += (char.charCodeAt() - 64) * Math.pow(26, char.length - 1);
+        char = char.slice(1);
     }
-    print('R'+row+'C'+col)
+    print('R' + row + 'C' + col)
 }
 
