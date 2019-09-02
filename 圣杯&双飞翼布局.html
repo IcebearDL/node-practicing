@@ -1,179 +1,310 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-    </head>
-    <style>
-        section {
-            padding: 0 10px
-        }
-        section div:first-child{
-            float: left;
-            /* display: inline-block; */
-            width: 200px;
-            height: 200px;
-            background-color: lightseagreen;
-        }
-        section div:nth-child(2){
-            float: right;
-            width: 200px;
-            height: 200px;
-            background-color: lightgreen;
-            
-        }
-        section div:last-child{
-            /* float: left; */
-            /* display: inline-block; */
-            overflow: hidden;
-            margin-right: 200px;
-            /* width: 100%; */
-            height: 200px;
-            background-color: pink;
-        }
-    </style>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<style>
+    section {
+        padding: 0 10px
+    }
+
+    section div:first-child {
+        float: left;
+        /* display: inline-block; */
+        width: 200px;
+        height: 200px;
+        background-color: lightseagreen;
+    }
+
+    section div:nth-child(2) {
+        float: right;
+        width: 200px;
+        height: 200px;
+        background-color: lightgreen;
+
+    }
+
+    section div:last-child {
+        /* float: left; */
+        /* display: inline-block; */
+        overflow: hidden;
+        margin-right: 200px;
+        /* width: 100%; */
+        height: 200px;
+        background-color: pink;
+    }
+</style>
+
+<style>
+    article {
+        margin-top: 100px;
+        display: block;
+        padding: 0 10px;
+        display: flex;
+    }
+
+    article div:first-child {
+        width: 200px;
+        height: 200px;
+        background-color: lightseagreen;
+    }
+
+    article div:nth-child(2) {
+        flex-grow: 1;
+        height: 200px;
+        background-color: lightgreen;
+
+    }
+
+    article div:last-child {
+        width: 200px;
+        height: 200px;
+        background-color: pink;
+    }
+</style>
+
+<style>
+    .float {
+        margin-top: 100px;
+        height: 200px;
+    }
+
+    .float div:first-child {
+        float: left;
+        width: 200px;
+        height: 200px;
+        background-color: lightseagreen;
+    }
+
+    .float div:nth-child(2) {
+        float: right;
+        width: 200px;
+        height: 200px;
+        background-color: pink;
+
+    }
+
+    .float div:last-child {
+        margin-left: 200px;
+        margin-right: 200px;
+        height: 200px;
+        background-color: lightgreen;
+    }
+</style>
+
+<style>
+    .absolute {
+        position: relative;
+        height: 200px;
+        margin-top: 100px;
+    }
+
+    .absolute>div:first-child {
+        position: absolute;
+        width: 20%;
+        height: 100%;
+        background-color: lightseagreen;
+        top: 0;
+        left: 0;
+    }
+
+    .absolute>div:nth-child(2) {
+        position: absolute;
+        height: 100%;
+        width: 60%;
+        background-color: pink;
+        top: 0;
+        left: 20%;
+    }
+
+    .absolute>div:last-child {
+        position: absolute;
+        width: 20%;
+        height: 100%;
+        background-color: lightgreen;
+        top: 0;
+        right: 0;
+    }
+</style>
+
+<style>
+    .fly {
+        margin-top: 100px;
+        overflow: hidden;
+    }
+
+    .fly>div {
+        height: 200px;
+        float: left;
+    }
+
+    .fly>div:first-child {
+        width: 100%;
+        padding: 0 200px;
+        box-sizing: border-box;
+        background-color: aqua;
+    }
+
+    .fly>div:nth-child(2) {
+        width: 200px;
+        margin-top: -200px;
+        background-color: cornflowerblue;
+    }
+
+    .fly>div:last-child {
+        float: right;
+        width: 200px;
+        margin-top: -200px;
+        background-color: cadetblue;
+    }
+</style>
+
+<body>
+    <!-- 第一种布局，把middle盒子放到最后面，用float和bfc块级格式上下文，和margin-right -->
+    <section>
+        <div></div>
+        <div></div>
+        <div id="middle"></div>
+    </section>
+    <!-- 第二种布局，用flex做 -->
+    <article>
+        <div></div>
+        <div></div>
+        <div></div>
+    </article>
+    <!-- 第三种布局还是用float做，与第一种较相似，不同点不使用bfc块级上下文 -->
+    <div class="float">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <!-- 第四种用绝对定位布局 ,bug:左中右都是百分比自适应,并非左右定宽,中间-->
+    <div class="absolute">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <!-- 双飞翼布局 -->
+    <!--让main占百分百宽度把旁边两个容器挤下去，用负的margin-top拉上来,然后左右内边距等同两遍容器的宽度 空开位置-->
+    <div class="fly">
+        <div class="main"></div>
+        <div></div>
+        <div></div>
+    </div>
 
     <style>
-        article {
-            margin-top: 100px;
+        .container {
+            border: 1px solid black;
+            height: 300px;
+            padding-left: 200px;
+            padding-right: 150px;
+        }
+
+        .container::after {
+            content: '';
+            clear: both;
             display: block;
-            padding: 0 10px;
-            display: flex;
         }
-        article div:first-child{
-            width: 200px;
-            height: 200px;
-            background-color: lightseagreen;
-        }
-        article div:nth-child(2){
-            flex-grow: 1;
-            height: 200px;
-            background-color: lightgreen;
-            
-        }
-        article div:last-child{
-            width: 200px;
-            height: 200px;
-            background-color: pink;
-        }
-    </style>
 
-    <style>
-        .float{
-            margin-top: 100px;
-            height: 200px;
-        }
-        .float div:first-child{
-            float: left;
-            width: 200px;
-            height: 200px;
-            background-color: lightseagreen;
-        }
-        .float div:nth-child(2){
-            float: right;
-            width: 200px;
-            height: 200px;
-            background-color: pink;
-            
-        }
-        .float div:last-child{
-            margin-left: 200px;
-            margin-right: 200px;
-            height: 200px;
-            background-color: lightgreen;
-        }
-    </style>
-
-    <style>
-        .absolute{
-            position: relative;
-            height: 200px;
-            margin-top: 100px;
-        }
-        .absolute > div:first-child{
-            position: absolute;
-            width: 20%;
-            height: 100%;
-            background-color: lightseagreen;
-            top: 0;
-            left: 0;
-        }
-        .absolute > div:nth-child(2){
-            position: absolute;
-            height: 100%;
-            width: 60%;
-            background-color: pink;
-            top: 0;
-            left: 20%;
-        }
-        .absolute > div:last-child{
-            position: absolute;
-            width: 20%;
-            height: 100%;
-            background-color: lightgreen;
-            top: 0;
-            right: 0;
-        }
-    </style>
-
-    <style>
-        .fly{
-            margin-top: 100px;
-        }
-        .fly > div{
-            height: 200px;
+        .middle,
+        .left,
+        .right {
             float: left;
         }
-        .fly > div:first-child{
+
+        .middle {
             width: 100%;
-            padding: 0 200px;
-            box-sizing:border-box;
+            height: 400px;
+            background: gray;
+        }
+
+        .left {
+            background: hotpink;
+            margin-left: -100%;
+            width: 200px;
+            position: relative;
+            right: 200px;
+            height: 300px;
+        }
+
+        .right {
+            background: pink;
+            width: 150px;
+            margin-left: -150px;
+            position: relative;
+            left: 150px;
+            height: 300px;
+            /* 300px为右盒子的宽度 */
+        }
+    </style>
+
+    <div class='container' style="margin-top:100px">
+        <div class="middle">中间的中间的中间的中间的中间的中间的中间的中间的中间的中间的中间的中间的中间的中间的</div>
+        <div class="left">左边的</div>
+        <div class="right">右边的</div>
+    </div>
+
+    <style>
+        .shengbei {
+            overflow: hidden;
+            margin-top: 200px;
+            clear: both;
+        }
+
+        .shengbei>div {
+            float: left;
+        }
+
+        .shengbei>div>div {
+            height: 400px;
+            margin-left: 200px;
+            margin-right: 150px;
             background-color: aqua;
         }
-        .fly > div:nth-child(2){
-            width:200px;
-            margin-top: -200px;
-            background-color:cornflowerblue;
+
+        .shengbei>div:first-child {
+            width: 100%;
         }
-        .fly > div:last-child{
-            float: right;
+
+        .shengbei>div:nth-child(2) {
+            margin-left:-100%;
             width: 200px;
-            margin-top: -200px;
-            background-color: cadetblue;
+            height: 200px;
+            background-color: pink;
         }
+
+        .shengbei>div:nth-child(3) {
+            margin-left: -150px;
+            width: 150px;
+            height: 300px;
+            background-color: hotpink;
+        }
+
     </style>
-    <body>
-        <!-- 第一种布局，把middle盒子放到最后面，用float和bfc块级格式上下文，和margin-right -->
-        <section>
-            <div></div>
-            <div></div>
-            <div id="middle"></div>
-        </section>
-        <!-- 第二种布局，用flex做 -->
-        <article>
-            <div></div>
-            <div></div>
-            <div></div>
-        </article>
-        <!-- 第三种布局还是用float做，与第一种较相似，不同点不使用bfc块级上下文 -->
-        <div class="float">
-            <div></div>
-            <div></div>
+
+    <div class="shengbei">
+        <div>
             <div></div>
         </div>
-        <!-- 第四种用绝对定位布局 ,bug:左中右都是百分比自适应,并非左右定宽,中间-->
-        <div class="absolute">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-        <!-- 双飞翼布局 -->
-        <!--让main占百分百宽度把旁边两个容器挤下去，用负的margin-top拉上来,然后左右内边距等同两遍容器的宽度 空开位置-->       
-        <div class="fly">
-            <div class="main"></div>
-            <div></div>
-            <div></div>
-        </div>
-        <div>123</div>
-    </body>
+        <div></div>
+        <div></div>
+    </div>
+    <!-- 圣杯布局，双飞翼布局总结：
+        相同点：
+        1. 都使用了浮动float:left；
+        2. 都使用了margin-left：进行副栏的高度提升；
+        3. 主栏都需要使用100%宽度，因为“浮动”具有包裹性，不显示设置宽度的情况下会自动“收缩”到内容大小
+        4. 都需要清除浮动，不然高度塌陷
+        5. 左侧栏都是margin-left：-100%，右侧栏都是margin-right：-（自身宽度）
+        不同点：
+        1. 圣杯布局的DOM机构相对简单，中间左侧右侧三栏；双飞翼将主栏包裹在中间栏的中间
+        2. 圣杯布局使用了position：relative，相对布局来位置移动，双飞翼不需要
+        3. 圣杯布局使用padding-left/right来给出左右侧栏的空隙，
+           而双飞翼布局使用margin-left/right来给出左右侧栏的空隙
+        4. 承受的最小宽度不同，圣杯布局的最小宽度是（左宽*2+右宽）；
+           而双飞翼布局的最小宽度是（左宽+右宽）-->
+</body>
+
 </html>

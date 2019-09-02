@@ -11,10 +11,10 @@ server.on('request', function (request, response) {
     // response.writeHead(200, {"Content-Type": "text/html"}); 
     if (request.url === '/index') {
         fs.readFile('图片上传的弹窗组件.html', function (err, data) {
+            response.setHeader("Content-Type", "text/html;charset=utf-8");
             if (err) {
                 response.end('文件打开失败');
             } else {
-                response.setHeader("Content-Type", "text/html;charset=utf-8");
                 response.end(data);
             }
         })

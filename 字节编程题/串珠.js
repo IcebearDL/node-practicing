@@ -24,9 +24,9 @@
 2
 */
 
-let pearlNum = 0,pearlKey = 0,colorNum = 0;
+let pearlNum = 0, pearlKey = 0, colorNum = 0;
 let colorClos = [];
-function handleData(input){
+function handleData(input) {
     let data = [];
     //这里过滤不能用value=> typeof parseInt(value) !== 'number' 因为typeof NaN 值是'number'
     //先按换行符分隔开
@@ -38,37 +38,37 @@ function handleData(input){
     pearlKey = data[1];
     colorNum = data[2];
     //剩余参数分组
-    for(let i = 3; i < data.length; i = i + data[i] + 1){
+    for (let i = 3; i < data.length; i = i + data[i] + 1) {
         let str = [data[i]];
-        for(let j = 0; j < data[i]; j++){
-            str.push(data[i+j+1]);
+        for (let j = 0; j < data[i]; j++) {
+            str.push(data[i + j + 1]);
         }
         colorClos.push(str);
     }
 }
 
-function output(){
+function output() {
     //初始化每个颜色的串珠序列号数组，并遍历colorClos求出
     let sameColorArr = [];
-    for(let i = 0; i < colorNum; i++){
+    for (let i = 0; i < colorNum; i++) {
         sameColorArr[i] = [];
     }
-    colorClos.forEach((item,index) => {
-        for(let i = 1;i < item.length; i++){
-            sameColorArr[item[i]-1].push(index)
+    colorClos.forEach((item, index) => {
+        for (let i = 1; i < item.length; i++) {
+            sameColorArr[item[i] - 1].push(index)
         }
     })
 
     //最后一步，对sameColorArr解析
     let count = 0;
-    for(let i = 0; i < sameColorArr.length; i++){
+    for (let i = 0; i < sameColorArr.length; i++) {
         let arr = sameColorArr[i];
-        if(arr.length === 1) continue
-        else if (arr[0] === 0 && arr[arr.length - 1] === pearlNum - 1){
+        if (arr.length === 1) continue
+        else if (arr[0] === 0 && arr[arr.length - 1] === pearlNum - 1) {
             count++;
         } else {
-            for(let j = 0; j< arr.length - 1; j++){
-                if(arr[j] - arr[j + 1] === -1){
+            for (let j = 0; j < arr.length - 1; j++) {
+                if (arr[j] - arr[j + 1] === -1) {
                     count++;
                     break;
                 }
@@ -79,7 +79,7 @@ function output(){
 }
 
 handleData(
-`100 10 50
+    `100 10 50
 50 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
 1 49
 0

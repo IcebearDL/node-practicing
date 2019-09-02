@@ -68,3 +68,29 @@ handleData(`5
 3 5 3`);
 
 console.log(output())
+
+
+// 牛客：
+// let userNum = readline();
+// let userlikeDegree = readline().split(' ');
+// let searchNum = readline();
+// let searches = [];
+// let line = '';
+// while(line = readline()){
+//     searches = searches.concat(line.split(' '));
+// }
+
+// function output(){
+//     let outputArr = [];
+//     for(let i = 0; i < searches.length; i+=3){
+//         let l = searches[i],r = searches[i + 1],k = searches[i + 2];
+//         let count = 0;
+//         for(let j = l; j <= r; j++){
+//             userlikeDegree[j-1] === k ? count++ : null;
+//         }
+//         outputArr.push(count);
+//     }
+//     return outputArr.join('\n');
+// }
+
+// console.log(output())
