@@ -184,7 +184,7 @@
         }
     </style>
 
-    <title id="title">C:\Users\86156\Desktop\知否-Web\ 的索引</title>
+    <title id="title">{{dir}} 的索引</title>
 
 </head>
 
@@ -193,10 +193,10 @@
     <div id="listingParsingErrorBox">糟糕！Google Chrome无法解读服务器所发送的数据。请<a
             href="http://code.google.com/p/chromium/issues/entry">报告错误</a>，并附上<a href="LOCATION">原始列表</a>。</div>
 
-    <h1 id="header">C:\Users\86156\Desktop\知否-Web\ 的索引</h1>
+    <h1 id="header">{{dir}} 的索引</h1>
 
     <div id="parentDirLinkBox" style="display: block;">
-        <a id="parentDirLink" class="icon up" href="/C:/Users/86156/Desktop/%E7%9F%A5%E5%90%A6-Web/..">
+        <a id="parentDirLink" class="icon up" href="/{{dir}}..">
             <span id="parentDirText">[上级目录]</span>
         </a>
     </div>
@@ -214,10 +214,10 @@
             </tr>
         </thead>
         <tbody id="tbody">
-            {{each file}}
+            {{each files}}
             <tr>
                 <td data-value=".idea/"><a class="icon dir"
-                        href="/C:/Users/86156/Desktop/%E7%9F%A5%E5%90%A6-Web/.idea/">{{$value}}/</a></td>
+                        href="/{{dir}}{{$value}}/">{{$value}}/</a></td>
                 <td class="detailsColumn" data-value="0"></td>
                 <td class="detailsColumn" data-value="1565575936">2019/8/12 上午10:12:16</td>
             </tr>

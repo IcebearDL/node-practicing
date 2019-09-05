@@ -7,17 +7,18 @@
 const http = require('http');
 const fs = require('fs');
 const template = require('art-template');
-
-// 模拟apache的根目录
-const dir = 'C:/Users/86156/Desktop/知否-Web';
+const urlencode = require('urlencode');
 
 let server = http.createServer();
 
 server.listen(5000, console.log('服务器启动成功'));
 
 server.on('request', (request, response) => {
-    console.log('请求地址为：' + request.url);
-    if (request.url !== '/template') return response.end('404 Not Found...')
+    request.url !== '/favicon.ico' ? console.log('请求地址为：' + urlencode.decode(request.url)) : null;
+    if (request.url === '/') return response.end('404 Index Page Not Found...')
+
+    //每次请求的目录
+    const dir = urlencode.decode(request.url).slice(1);
 
     const asyncReadFile = new Promise(resolve => {
         fs.readFile('templates.html', (err, data) => {
@@ -33,16 +34,19 @@ server.on('request', (request, response) => {
         fs.readdir(dir, (err, files) => {
             if (err) {
                 response.end('Cant find dir...');
-                throw new Error(err);
+                // console.error(err);
             }
 
             //这里不是浏览器
             //template('script 标签 id'，{对象})
             //这里使用art-template模板渲染库在nodejs中的用法
-            let ret = template.render(data.toString(), { file: files })
+            let ret = template.render(data.toString(), {
+                dir: dir,
+                files: files
+            })
             response.end(ret);
         })
-    }).catch((err)=>{
+    }).catch((err) => {
         console.error(err);
     })
 
