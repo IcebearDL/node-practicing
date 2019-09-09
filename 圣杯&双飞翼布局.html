@@ -2,8 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <style>
     section {
@@ -269,7 +268,7 @@
         }
 
         .shengbei>div:nth-child(2) {
-            margin-left:-100%;
+            margin-left: -100%;
             width: 200px;
             height: 200px;
             background-color: pink;
@@ -281,7 +280,6 @@
             height: 300px;
             background-color: hotpink;
         }
-
     </style>
 
     <div class="shengbei">
@@ -305,6 +303,73 @@
            而双飞翼布局使用margin-left/right来给出左右侧栏的空隙
         4. 承受的最小宽度不同，圣杯布局的最小宽度是（左宽*2+右宽）；
            而双飞翼布局的最小宽度是（左宽+右宽）-->
+
+    <!-- 接下来使用flex实现双飞翼布局 -->
+    <style>
+        .flex {
+            display: flex;
+            margin-top: 150px;
+        }
+
+        .flex>div:first-child {
+            flex: 1;
+            /* 表明此元素可放大 */
+            height: 400px;
+            background-color: pink;
+
+        }
+
+        .flex>div:nth-child(2) {
+            order: -1;
+            /* 用order -1 将左轴的顺序移至最前 
+               order 默认为 0,数值越小越靠前  */
+            flex: 0 1 200px;
+            /*  相当于：
+                flex-grow: 0;
+                flex-shrink: 1;
+                flex-basis: 200px;
+                即不放大可缩小，缩小为项目基本宽度，即flex-basis
+            */
+            height: 400px;
+            background-color: green;
+        }
+
+        .flex>div:last-child {
+            flex: 0 1 150px;
+            height: 400px;
+            background-color: hotpink;
+        }
+    </style>
+    <div class="flex">
+        <div id="center"></div>
+        <div id="left"></div>
+        <div id="right"></div>
+    </div>
+    <header>
+        <nav></nav>
+    </header>
+    <section>
+        <main>
+            <article></article>
+            <figure></figure>
+            <canvas></canvas>
+            <button></button>
+        </main>
+    </section>
+    <aside></aside>
+    <footer></footer>
+    <style>
+       button:hover{
+           background-color: red;
+       }
+       button:focus{
+           background-color: aqua;
+       }
+       button:active{
+           background-color: pink;
+       }
+    </style>
+    <button>button</button>
 </body>
 
 </html>
