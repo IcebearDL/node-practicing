@@ -8,15 +8,15 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
         header {
-            width: 960px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding-top: 20px;
-            padding-bottom: 10px;
+            padding: 20px 20px 10px 20px;
         }
 
         section {
-            width: 960px;
+            max-width: 1000px;
             margin: 0 auto;
+            padding: 0 20px;
         }
 
         ul {
@@ -55,7 +55,7 @@
         .delete{
             float: right;
             position: relative;
-            top:-9px;
+            top:-10px;
             height: 10px;
             font-size: 24px;
             border: none;
@@ -74,7 +74,7 @@
         <h1>feedback留言板 <span class="badge badge-secondary">dl</span></h1>
     </header>
     <section>
-        <button type="button" class="btn btn-success">跳转去留言</button>
+        <button type="button" class="btn btn-success" onclick="window.location.pathname = '/feedback/notes'">跳转去留言</button>
         <ul class="list-group">
             <li class="list-group-item list-group-item-success">dl社区留言板，欢迎留言~</li>
             {{ each notes }}
@@ -83,7 +83,7 @@
                     <span>@</span><span>{{ $value.author }} :</span>
                 </div>
                 <button class="delete" onclick="deleteMsg(this)">×</button>
-                <span class="time">{{ $value.time }}</span>
+                <span class="time">{{ $value.timeTag }}</span>
                 <div>
                     <p>{{ $value.text }}</p>
                 </div>
