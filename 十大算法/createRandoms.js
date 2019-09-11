@@ -4,6 +4,7 @@ function getRandomIntInclusive(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min; //含最大值，含最小值 
 }
+//当数据级到100万的时候承载过度
 for (let i = 0; i < 100000; i++) {
     arr.push(getRandomIntInclusive(1, 100000))
 }
