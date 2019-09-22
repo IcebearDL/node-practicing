@@ -2,6 +2,7 @@
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
+//引入的formidable是用于form表单提交的服务器解析第三方包
 const formidable = require('formidable');
 
 let server = http.createServer();
@@ -49,6 +50,7 @@ server.on('request',function(request,response){
                 // for(let key in field){
                 //     str.push(key + ':' + field[key]);
                 // }
+                console.log(field)
                 response.setHeader("Content-Type","text/plain;charset=utf-8");
                 response.write('*提交数据成功*');
                 response.end();
@@ -56,6 +58,7 @@ server.on('request',function(request,response){
         });
         
     } else{
+        response.writeHead(404,{"Content-Type":"text/html;charset=UTF8"});
         response.end('404 Not Found');
     }
 })
