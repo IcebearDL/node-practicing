@@ -25,7 +25,16 @@ function flatten2(input){
     return input
 }
 
-console.log(flatten2(givenArr));
+//使用reduce
+function flatten3(input){
+    return input.reduce((arr,item)=>{
+        return arr.concat(Array.isArray(item) ? flatten3(item) : item);
+    },[])
+}
+
+
+
+console.log(flatten3(givenArr));
 
 //排序数组 a-b 为按升序排列
-console.log(flatten2(givenArr).sort((a ,b) => a-b))
+// console.log(flatten2(givenArr).sort((a ,b) => a-b))
