@@ -19,7 +19,7 @@
         input {
             font-size: 20px;
             color: #484848;
-            width: 350px;
+            width: 550px;
             padding: 10px;
             box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.15);
             border: 1px solid #d8d8d8;
@@ -30,7 +30,7 @@
             margin: 0 auto;
             font-size: 20px;
             color: #484848;
-            width: 350px;
+            width: 550px;
             padding: 5px 10px;
             box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.15);
             border: 1px solid #d8d8d8;
@@ -61,7 +61,7 @@
 
 <body>
     <header>
-        <h1>TODOList HTML&CSS练习</h1>
+        <h1>TODOList</h1>
     </header>
     <section>
         <div>
@@ -71,12 +71,82 @@
         </div>
     </section>
     <script>
+        //创建储存的inputList
         let inputInfo = [];
+        //创建唯一标识ID
+        let inputId = 1;
 
         let input = document.getElementById('input');
-        input.addEventListener("keydown", pressDown);
-        input.addEventListener("input", watchText);
 
+        //添加监控事件
+        input.addEventListener("keydown", function pressDown(e) {
+            if (e.keyCode === 13) {
+                if(input.value.trim() !== '' ){
+
+                    //对输入防止XSS进行转义
+                    let value = input.value.replace(/</g,'&#60;').replace(/>/g,'&#62;');
+                    addItem({ id: inputId, value: value });
+                    inputId++;
+                } else{
+                    alert("请输入");
+                }
+                
+            }
+        });
+
+        input.addEventListener("input", watchText);
+        function watchText() {
+            //输入为空，且inputInfo有数据
+            if (input.value.trim() === '' && inputInfo.length !== 0) {
+                let str = '';
+                inputInfo.forEach(item => {
+                    str += `
+                        <li>
+                            <span>${item.value}</span>
+                            <button onclick="deleteItem(${item.id},this)">×</button>
+                        </li>`;
+                })
+                document.getElementById('ul').innerHTML = str;
+            } else if (inputInfo.length !== 0) {
+                //进行模糊匹配
+                const regexp = RegExp(input.value, 'g');
+
+                let str = '';
+                document.getElementById('ul').innerHTML = '';
+                inputInfo.forEach(item => {
+
+                    //利用正则匹配
+                    let matches = item.value.matchAll(regexp);
+                    let textHtml = item.value;
+                    let indexList = [];
+
+                    //储存匹配出的index
+                    for (let match of matches) {
+                        indexList.push(match.index)
+                    }
+
+                    //匹配不为空
+                    if (indexList.length !== 0) {
+
+                        //从后往前拼接字符串不会导致错乱
+                        indexList.reverse()
+                        indexList.forEach(i => {
+                            textHtml = `${textHtml.substring(0, i)}<span style="color:red">${textHtml.substring(i, i + input.value.length)}</span>${textHtml.substring(i + input.value.length)}`;
+                        })
+
+                        str += `<li>
+                                    ${textHtml}
+                                    <button onclick="deleteItem(${item.id},this)">×</button>
+                                </li>`;
+                    } else if(indexList.length === 0) {
+                        str = '<li><span style="color:#727272;font-size:14px">暂无匹配项~</span></li>'
+                    }
+                });
+                document.getElementById('ul').innerHTML = str;
+            }
+        }
+
+        //添加item
         function addItem(msg) {
             if (document.getElementById('ul').display = 'none') {
                 document.getElementById('ul').style.display = 'block'
@@ -85,60 +155,25 @@
 
             //每次重新刷出
             let str = '';
-            inputInfo.forEach((item, index) => {
+            inputInfo.forEach(item => {
                 str += `
                     <li>
-                        <span>${item}</span>
-                        <button onclick="deleteItem(this,${index})">×</button>
+                        <span>${item.value}</span>
+                        <button onclick="deleteItem(${item.id},this)">×</button>
                     </li>`;
             })
+
+            //清空输入框并渲染下面
             input.value = '';
             document.getElementById('ul').innerHTML = str;
         }
 
-        function deleteItem(e, index) {
+        //删除item
+        function deleteItem(deleteId, e) {
             e.parentNode.remove();
-            inputInfo.splice(index, 1);
+            inputInfo = inputInfo.filter(item => item.id !== deleteId);
             if (document.getElementById('ul').innerText === '') {
                 document.getElementById('ul').style.display = 'none'
-            }
-        }
-
-        function pressDown(e) {
-            if (e.keyCode === 13) {
-                input.value.trim() !== '' ? addItem(input.value) : alert("请输入");
-            }
-        }
-        function watchText() {
-            console.log(input.value);
-            if (input.value.trim() === '' && inputInfo) {
-                let str = '';
-                inputInfo.forEach(item => {
-                    str += `
-                        <li>
-                            <span>${item}</span>
-                            <button onclick="deleteItem(this)">×</button>
-                        </li>`;
-                })
-                document.getElementById('ul').innerHTML = str;
-            } else if (inputInfo) {
-                console.log(input.value);
-                let str = '';
-                document.getElementById('ul').innerHTML = '';
-                inputInfo.forEach(item => {
-                    let index = item.indexOf(input.value);
-                    if (index !== -1) {
-                        let begin = item.substring(0, index);
-                        let keyword = item.substring(index, index + input.value.length);
-                        let end = item.substring(index + input.value.length);
-                        str += `
-                            <li>
-                                <span>${begin}</span><span style="color:red">${keyword}</span><span>${end}</span>
-                                <button onclick="deleteItem(this)">×</button>
-                            </li>`;
-                    }
-                });
-                document.getElementById('ul').innerHTML = str;
             }
         }
     </script>
