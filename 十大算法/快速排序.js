@@ -11,7 +11,7 @@ console.time();
 
 function quickSort(array) {
     let len = array.length;
-    let mid, pivot, left = [], right = [];
+    let pivot, left = [], right = [];
     if (len <= 1) return array;
     index = Math.floor(len / 2);
     //保存中间值，并删掉原数组中的中间值
@@ -27,5 +27,5 @@ function quickSort(array) {
 quickSort(data);
 // process.stdout.write(quickSort(data).toString());
 
-console.log('使用“归并排序”对10000个随机数据进行排序，所花时间：');
+console.log('使用“快速排序”对10000个随机数据进行排序，所花时间：');
 console.timeEnd();
