@@ -81,20 +81,24 @@
         //添加监控事件
         input.addEventListener("keydown", function pressDown(e) {
             if (e.keyCode === 13) {
-                if(input.value.trim() !== '' ){
+                if (input.value.trim() !== '') {
 
                     //对输入防止XSS进行转义
-                    let value = input.value.replace(/</g,'&#60;').replace(/>/g,'&#62;');
-                    addItem({ id: inputId, value: value });
+                    let value = input.value.replace(/</g, '&#60;').replace(/>/g, '&#62;');
+                    addItem({
+                        id: inputId,
+                        value: value
+                    });
                     inputId++;
-                } else{
+                } else {
                     alert("请输入");
                 }
-                
+
             }
         });
 
         input.addEventListener("input", watchText);
+
         function watchText() {
             //输入为空，且inputInfo有数据
             if (input.value.trim() === '' && inputInfo.length !== 0) {
@@ -131,14 +135,15 @@
                         //从后往前拼接字符串不会导致错乱
                         indexList.reverse()
                         indexList.forEach(i => {
-                            textHtml = `${textHtml.substring(0, i)}<span style="color:red">${textHtml.substring(i, i + input.value.length)}</span>${textHtml.substring(i + input.value.length)}`;
+                            textHtml =
+                                `${textHtml.substring(0, i)}<span style="color:red">${textHtml.substring(i, i + input.value.length)}</span>${textHtml.substring(i + input.value.length)}`;
                         })
 
                         str += `<li>
                                     ${textHtml}
                                     <button onclick="deleteItem(${item.id},this)">×</button>
                                 </li>`;
-                    } else if(indexList.length === 0) {
+                    } else if (indexList.length === 0) {
                         str = '<li><span style="color:#727272;font-size:14px">暂无匹配项~</span></li>'
                     }
                 });
