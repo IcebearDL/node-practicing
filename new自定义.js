@@ -17,3 +17,23 @@ function New(func) {
     //如果构造函数没有指定返回对象。则默认返回obj，即实例对象
     return obj
 }
+
+
+//Demo
+function Person(name, nickname, age) {
+    this.name = name;
+    this.nickname = nickname
+    this.age = age;
+    this.getName = function () {
+        return `${this.name}————${this.nickname}`
+    }
+}
+
+//原生new
+const kk1 = new Person('王美丽', '猪葵', 19);
+
+//自定义的new
+const kk2 = New(Person, '王美丽', '猪葵', 19);
+
+console.log(kk1, kk1.getName());
+console.log(kk2, kk2.getName());
