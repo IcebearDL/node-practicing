@@ -13,7 +13,7 @@ function createCurry(func, arity, args) {
     //第一次执行不会传入args
     args = args || [];
 
-    const wrapper = function () {
+    return function () {
         const _args = [].slice.call(arguments);
 
         //将每次调用的参数存入args
@@ -28,8 +28,6 @@ function createCurry(func, arity, args) {
             return func.apply(null, args)
         }
     }
-
-    return wrapper
 }
 
 function A(a, b, c) {
@@ -39,3 +37,38 @@ function A(a, b, c) {
 const _A = createCurry(A);
 
 console.log(_A(1)(2)(3));
+
+
+
+//封装一个柯里化的add函数；实现以下都相等
+//add(1)(2)(3)(4)
+//add(1,2,3,4)
+//add(1,2)(3,4)
+//add(1,2,3)(4)
+
+function add() {
+    //args用来保存参数
+    const args = [...arguments];
+
+    //返回一个立即执行函数，返回值为adder的引用，以便于下次调用
+    //返回值函数adder的引用的toString被重写，返回之前所有add调用的参数的求和
+    return (function (args) {
+        //
+        const adder = function () {
+            //继续保存args
+            args.push(...arguments);
+            //返回函数引用
+            return adder
+        }
+
+        //重写函数引用的toString方法，使得返回值可以参与运算
+        adder.toString = function () {
+            return args.reduce((total, current) => total + current)
+        }
+        
+        return adder
+    })(args)
+}
+
+const a = add(1)(2)(10,20)(100);
+console.log(a.toString());
