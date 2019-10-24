@@ -41,3 +41,24 @@ function MyPromise(func) {
         reject(e)
     }
 }
+
+//定义原型上的then方法
+MyPromise.prototype.then = function(onResolved,onRejected){
+    if (this.status === 'resolved') {
+        onResolved(this.value);
+    }
+    if (this.status === 'rejected') {
+        onRejected(this.reason);
+    }
+}
+
+// 进行测试
+let promise = new Promise((resolve, reject) => {
+    resolve("haha");
+})
+
+promise.then(data => {
+    console.log(data); //输出 haha
+}, err=> {
+    console.log(err);
+})
